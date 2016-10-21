@@ -9,6 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public $timestamps=false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +26,26 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
+
+    public function chatHistory()
+    {
+      /**
+       *
+       * Each message belongs to a user
+       *
+      */
+        return $this->hasMany('App\Chat');
+    }
+
+    public function response()
+    {
+      /**
+       *
+       * Each message belongs to a user
+       *
+      */
+        return $this->select('id');
+    }
 }
