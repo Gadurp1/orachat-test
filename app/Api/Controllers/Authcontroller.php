@@ -11,13 +11,7 @@ use App\User;
 
 class AuthController extends \App\Http\Controllers\Controller
 {
-
-    public function index()
-    {
-        // TODO: show users
-    }
-
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
