@@ -1,31 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Chat;
 use App\Message;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+
 use Auth;
 
-class ChatController extends Controller {
-
-  /**
+class ChatController extends Controller
+{
+    /**
    * Display a listing of chats with last chat message.
    *
    * @return Response
    */
-  public function index()
+  public function index(Request $request)
   {
-      $chatHistory = Chat::where('user_id',Auth::user()->id)
+      $query = Chat::where('user_id', Auth::user()->id)
           ->with('user')
-          ->with('lastMessage')
-          ->paginate(10);
+          ->with('lastMessage');
 
-      return response()->json(['success'=>true,'data'=>$chatHistory]);
+      if ($request->q) {
+          $query->where('chats.name', 'LIKE', '%'.$request->q.'%');
+      }
 
+      $chatHistory = $query->simplePaginate(10);
+
+      return response()->json(['success' => true, 'data' => $chatHistory]);
   }
 
   /**
@@ -35,8 +37,8 @@ class ChatController extends Controller {
    */
   public function store(Request $request)
   {
-      $chat= new Chat;
-      $chat->user_id=Auth::user()->id;
+      $chat = new Chat();
+      $chat->user_id = Auth::user()->id;
       $chat->save($request->all());
   }
 }

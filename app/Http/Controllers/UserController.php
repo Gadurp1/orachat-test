@@ -48,8 +48,9 @@ class UserController extends Controller {
       $user->update($request->all());
       $token= JWTAuth::getToken();
       $token = array('token'=>''.$token.'');
-      $result=array_merge($user->toArray(),$token);
 
-      return response()->json(['success'=>true,'data'=>$result]);
+      $userData=array_merge($user->toArray(),$token);
+
+      return response()->json(['success'=>true,'data'=>$userData]);
   }
 }

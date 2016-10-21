@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Message;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Auth;
 
 class MessageController extends Controller {
   /**
@@ -14,13 +17,43 @@ class MessageController extends Controller {
    */
   public function index(Request $request,$chat_id)
   {
-     $query=Message::where('chat_id',$chat_id)->with('user');
+      $token= JWTAuth::getToken();
 
-     if($request->limit){
+      $query=Message::where('chat_id',$chat_id)->with('user');
+
+      if($request->limit){
         $query->take($request->limit);
-     }
+      }
 
-     return $messages=$query->get();
+      $messageHistory=$query->paginate(10);
+      return response()->json(['success' => true, 'data' => $messageHistory])
+      ->header('Content-Type', 'application/json; charset=utf-8')
+      ->header('Authorization', 'Bearer ' . $token);
+
+  }
+
+  /**
+   * Create a new chat message.
+   *
+   * @return Response
+   */
+  public function store(Request $request,$chat_id)
+  {
+      $token= JWTAuth::getToken();
+
+      $query=Message::where('chat_id',$chat_id)->with('user');
+
+      $message= new Message;
+      $message->user_id=Auth::user()->id;
+      $message->chat_id=$chat_id;
+      $message->message=$request->message;
+      $message->save();
+
+      $messageHistory=$query->paginate(10);
+      return response()->json(['success' => true, 'data' => $messageHistory])
+      ->header('Content-Type', 'application/json; charset=utf-8')
+      ->header('Authorization', 'Bearer ' . $token);
+
   }
 
 }
