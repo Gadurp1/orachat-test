@@ -23,9 +23,8 @@ class ChatController extends Controller
           $query->where('chats.name', 'LIKE', '%'.$request->q.'%');
       }
 
-      $chatHistory = $query->simplePaginate(10);
-
-      return response()->json(['success' => true, 'data' => $chatHistory]);
+      $chatHistory = $query->paginate(10);
+      return response()->json($chatHistory);
   }
 
   /**

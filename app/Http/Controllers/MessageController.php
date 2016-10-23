@@ -10,8 +10,9 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Auth;
 
 class MessageController extends Controller {
+
   /**
-   * Display a listing of the resource.
+   * Display a listing of messages.
    *
    * @return Response
    */
@@ -19,14 +20,14 @@ class MessageController extends Controller {
   {
       $query = Message::messageHistory()->where('chat_id',$chat_id);
 
-      // Check for search parameter
+      // Check for limit parameter
       if($request->limit){
         $query->take($request->limit);
       }
 
-      $messageHistory = $query->paginate(10);
-      
-      return response()->json(['success' => true, 'data' => $messageHistory])
+      $messageHistory = $query->simplePaginate($request->limit);
+
+      return response($messageHistory)
           ->header('Content-Type', 'application/json; charset=utf-8');
 
   }
@@ -49,10 +50,18 @@ class MessageController extends Controller {
       $message->message = $request->message;
       $message->save();
 
-      // Create new message
-      $newMessage = $message->where('chat_id',$chat_id)->messageHistory()->first();
+      // Check for search parameter
+      if(! $message->id){
+          return response()->json(['error' => 'Could not create message'])
+              ->header('Content-Type', 'application/json; charset=utf-8');
+      }
 
-      return response()->json(['success' => true, 'data' => $newMessage])
+      // Create new message
+      $newMessage = $message->where('chat_id',$chat_id)
+          ->messageHistory()
+          ->first();
+
+      return response()->json(['success' => true,'success' => $newMessage])
           ->header('Content-Type', 'application/json; charset=utf-8');
   }
 
