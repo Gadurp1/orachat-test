@@ -13,21 +13,19 @@ class Chat extends Model
   public $timestamps=false;
 
   /**
+      * The storage format of the model's date columns.
+      *
+      * @var string
+      */
+     protected $dateFormat = 'Y';
+
+  /**
    * The attributes that are mass assignable.
    *
    * @var array
    */
   protected $fillable = [
       'name'
-  ];
-
-  /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-  protected $hidden = [
-      'password', 'remember_token'
   ];
 
   public function user()
@@ -48,25 +46,20 @@ class Chat extends Model
      * Select the latest message from chat history
      *
     */
-<<<<<<< HEAD
     return $this->hasOne('App\Message')
-=======
-    return $this->hasMany('App\Message')
         ->selectRaw('id,user_id,chat_id,message,date_format(created, "%Y-%m-%dT%TZ") as created')
->>>>>>> More
         ->orderBy('created','DESC')
         ->with('user')
         ->take(1);
    }
 
-<<<<<<< HEAD
-=======
+
    public function scopeChatHistory()
    {
      return $this->selectRaw('id,user_id,name,date_format(created, "%Y-%m-%dT%TZ") as created')
-     ->with('user')
-     ->with('lastMessage');
+         ->orderBy('created','DESC')
+         ->with('user')
+         ->with('lastMessage');
     }
 
->>>>>>> More
 }

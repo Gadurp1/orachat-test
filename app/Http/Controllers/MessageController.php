@@ -17,17 +17,16 @@ class MessageController extends Controller {
    */
   public function index(Request $request,$chat_id)
   {
-      $token= JWTAuth::getToken();
-      $query=Message::where('chat_id',$chat_id)->with('user');
+      $query = Message::messageHistory()->where('chat_id',$chat_id);
 
+      // Check for search parameter
       if($request->limit){
         $query->take($request->limit);
       }
 
-      $messageHistory=$query->paginate(10);
+      $messageHistory = $query->paginate(10);
       return response()->json(['success' => true, 'data' => $messageHistory])
-      ->header('Content-Type', 'application/json; charset=utf-8')
-      ->header('Authorization', 'Bearer ' . $token);
+          ->header('Content-Type', 'application/json; charset=utf-8');
 
   }
 
@@ -38,21 +37,22 @@ class MessageController extends Controller {
    */
   public function store(Request $request,$chat_id)
   {
-      $token= JWTAuth::getToken();
+      $this->validate($request, [
+          'message' => 'required',
+        ]);
 
-      $query=Message::where('chat_id',$chat_id)->with('user');
-
-      $message= new Message;
+      // Create new message
+      $message = new Message;
       $message->user_id=Auth::user()->id;
-      $message->chat_id=$chat_id;
-      $message->message=$request->message;
+      $message->chat_id = $chat_id;
+      $message->message = $request->message;
       $message->save();
 
-      $messageHistory=$query->paginate(10);
-      return response()->json(['success' => true, 'data' => $messageHistory])
-      ->header('Content-Type', 'application/json; charset=utf-8')
-      ->header('Authorization', 'Bearer ' . $token);
+      // Create new message
+      $newMessage = $message->where('chat_id',$chat_id)->messageHistory()->first();
 
+      return response()->json(['success' => true, 'data' => $newMessage])
+          ->header('Content-Type', 'application/json; charset=utf-8');
   }
 
 }
