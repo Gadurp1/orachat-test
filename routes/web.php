@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('users/login', '\App\Api\Controllers\AuthController@login');
+Route::post('users/register', '\App\Api\Controllers\AuthController@register');
 
 Route::group(['middleware' => 'jwt.auth'], function()
 {

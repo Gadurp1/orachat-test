@@ -25,6 +25,7 @@ class MessageController extends Controller {
       }
 
       $messageHistory = $query->paginate(10);
+      
       return response()->json(['success' => true, 'data' => $messageHistory])
           ->header('Content-Type', 'application/json; charset=utf-8');
 
