@@ -35,4 +35,29 @@ class AuthController extends \App\Http\Controllers\Controller
         return response()->json(['success' => true, 'data' => $user]);
     }
 
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'email' => 'email|required|unique:users',
+            'name' => 'required',
+            'password' => 'required|min:6',
+            'confirm' => 'required|same:password'
+          ]);
+
+          if($validator->fails()) {
+              return response()->json(['error' => true, 'data' => $validator->errors()->all()]);
+          }
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = \Hash::make($request->password);
+        $user->save();
+
+        // if no errors are encountered we can return a JWT
+        $token = JWTAuth::fromUser($user);
+        $user->token=$token;
+        return response()->json(['success' => true, 'data' => $user]);
+    }
+
 }
