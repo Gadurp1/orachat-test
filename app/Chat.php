@@ -48,10 +48,25 @@ class Chat extends Model
      * Select the latest message from chat history
      *
     */
+<<<<<<< HEAD
     return $this->hasOne('App\Message')
+=======
+    return $this->hasMany('App\Message')
+        ->selectRaw('id,user_id,chat_id,message,date_format(created, "%Y-%m-%dT%TZ") as created')
+>>>>>>> More
         ->orderBy('created','DESC')
         ->with('user')
         ->take(1);
    }
 
+<<<<<<< HEAD
+=======
+   public function scopeChatHistory()
+   {
+     return $this->selectRaw('id,user_id,name,date_format(created, "%Y-%m-%dT%TZ") as created')
+     ->with('user')
+     ->with('lastMessage');
+    }
+
+>>>>>>> More
 }

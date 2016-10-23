@@ -18,7 +18,6 @@ class MessageController extends Controller {
   public function index(Request $request,$chat_id)
   {
       $token= JWTAuth::getToken();
-
       $query=Message::where('chat_id',$chat_id)->with('user');
 
       if($request->limit){
