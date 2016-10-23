@@ -17,9 +17,7 @@ class ChatController extends Controller
    */
   public function index(Request $request)
   {
-      $query = Chat::where('user_id', Auth::user()->id)
-          ->with('user')
-          ->with('lastMessage');
+      $query = Chat::with('user')->with('lastMessage');
 
       if ($request->q) {
           $query->where('chats.name', 'LIKE', '%'.$request->q.'%');
@@ -31,7 +29,7 @@ class ChatController extends Controller
   }
 
   /**
-   * Display a listing of chats with last chat message.
+   * Create a new chat then display chat information.
    *
    * @return Response
    */
@@ -39,6 +37,12 @@ class ChatController extends Controller
   {
       $chat = new Chat();
       $chat->user_id = Auth::user()->id;
+      $chat->name = $request->name;
+
       $chat->save($request->all());
+
+      $chat = Chat::where('id',$chat->id)->with('user')->with('lastMessage')
+          ->get();
+      return response()->json(['success' => true, 'data' => $chat]);
   }
 }

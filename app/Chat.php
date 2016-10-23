@@ -10,6 +10,26 @@ use App\Chat;
 
 class Chat extends Model
 {
+  public $timestamps=false;
+
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = [
+      'name'
+  ];
+
+  /**
+   * The attributes that should be hidden for arrays.
+   *
+   * @var array
+   */
+  protected $hidden = [
+      'password', 'remember_token'
+  ];
+
   public function user()
   {
     /**
@@ -28,9 +48,10 @@ class Chat extends Model
      * Select the latest message from chat history
      *
     */
-    return $this->hasMany('App\Message')
+    return $this->hasOne('App\Message')
         ->orderBy('created','DESC')
         ->with('user')
         ->take(1);
    }
+
 }
