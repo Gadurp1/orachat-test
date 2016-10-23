@@ -11,10 +11,14 @@ use App\User;
 
 class AuthController extends \App\Http\Controllers\Controller
 {
+    /**
+     * Return a JWT
+     *
+     * @return Response
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -28,7 +32,7 @@ class AuthController extends \App\Http\Controllers\Controller
         // if no errors are encountered we can return a JWT
         $user=Auth::user();
         $user->token=$token;
-        return response()->json(['success'=>true,'data'=>$user]);
+        return response()->json(['success' => true, 'data' => $user]);
     }
 
 }

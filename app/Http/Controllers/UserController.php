@@ -44,12 +44,12 @@ class UserController extends Controller {
    */
   public function update(Request $request)
   {
-      $user= Auth::user()->response;
+      $user= Auth::user();
       $user->update($request->all());
       $token= JWTAuth::getToken();
-      $token = array('token'=>''.$token.'');
+      $userToken = array('token'=>''.$token.'');
 
-      $userData=array_merge($user->toArray(),$token);
+      $userData=array_merge($user->toArray(),$userToken);
 
       return response()->json(['success'=>true,'data'=>$userData]);
   }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Chat;
 use App\Message;
-
 use Auth;
 
 class ChatController extends Controller
@@ -17,9 +16,7 @@ class ChatController extends Controller
    */
   public function index(Request $request)
   {
-      $query = Chat::where('user_id', Auth::user()->id)
-          ->with('user')
-          ->with('lastMessage');
+      $query = Chat::chatHistory();
 
       if ($request->q) {
           $query->where('chats.name', 'LIKE', '%'.$request->q.'%');
@@ -27,7 +24,9 @@ class ChatController extends Controller
 
       $chatHistory = $query->simplePaginate(10);
 
-      return response()->json(['success' => true, 'data' => $chatHistory]);
+      return response()->json(['success' => true, 'data' => $chatHistory])
+        ->header('Content-Type', 'application/json; charset=utf-8');
+
   }
 
   /**

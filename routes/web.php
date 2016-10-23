@@ -18,8 +18,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'jwt.auth'], function()
 {
-
     Route::get('chats', '\App\Http\Controllers\ChatController@index');
+    Route::get('chats/{id}/messages', '\App\Http\Controllers\MessageController@index');
     Route::post('chats/{id}/messages', '\App\Http\Controllers\MessageController@store');
 
     Route::get('users/me', '\App\Http\Controllers\UserController@index');

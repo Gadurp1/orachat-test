@@ -29,23 +29,4 @@ class User extends Authenticatable
         'password', 'remember_token'
     ];
 
-    public function chatHistory()
-    {
-      /**
-       *
-       * Each message belongs to a user
-       *
-      */
-        return $this->hasMany('App\Chat');
-    }
-
-    public function response()
-    {
-      /**
-       *
-       * Each message belongs to a user
-       *
-      */
-        return $this->select('id');
-    }
 }
