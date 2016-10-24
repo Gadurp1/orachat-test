@@ -16,7 +16,7 @@ Run composer
 composer install
 ```
 
-Now rename the ``.env.example`` file and to ``.env`` set your enviroment variables.
+Now rename the ``.env.example`` file and to ``.env`` set your environment variables.
 
 Generate key
 ```
@@ -26,6 +26,11 @@ php artisan key:generate
 Set up database
 ```
 php artisan migrate
+```
+
+Fill the database with test data
+```
+php artisan db:seed
 ```
 
 Start server

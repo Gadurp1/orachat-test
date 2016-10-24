@@ -30,36 +30,46 @@ class Chat extends Model
 
   public function user()
   {
-    /**
-     *
-     * Each message belongs to a user
-     *
-    */
+      /**
+       *
+       * Each message belongs to a user
+       *
+      */
       return $this->belongsTo('App\User')
           ->select('id','name');
   }
 
+  public function messages()
+  {
+      /**
+       *
+       * A chat can have many messages
+       *
+      */
+      return $this->hasMany('App\Message');
+  }
+
   public function lastMessage()
   {
-    /**
-     *
-     * Select the latest message from chat history
-     *
-    */
-    return $this->hasOne('App\Message')
-        ->selectRaw('id,user_id,chat_id,message,date_format(created, "%Y-%m-%dT%TZ") as created')
-        ->orderBy('created','DESC')
-        ->with('user')
-        ->take(1);
+      /**
+       *
+       * Select the latest message from chat history
+       *
+      */
+      return $this->hasOne('App\Message')
+          ->selectRaw('id,user_id,chat_id,message,date_format(created, "%Y-%m-%dT%TZ") as created')
+          ->orderBy('created','DESC')
+          ->with('user')
+          ->take(1);
    }
 
 
    public function scopeChatHistory()
    {
-     return $this->selectRaw('id,user_id,name,date_format(created, "%Y-%m-%dT%TZ") as created')
-         ->orderBy('created','DESC')
-         ->with('user')
-         ->with('lastMessage');
+        return $this->selectRaw('id,user_id,name,date_format(created, "%Y-%m-%dT%TZ") as created')
+            ->orderBy('created','DESC')
+            ->with('user')
+            ->with('lastMessage');
     }
 
 }

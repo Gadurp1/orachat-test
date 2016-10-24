@@ -19,6 +19,16 @@ class Message extends Model
             ->select('id','name');
      }
 
+     public function chat()
+     {
+       /**
+        *
+        * Each message belongs to a chat
+        *
+       */
+         return $this->belongsTo('App\Chat');
+     }
+
      public function scopeMessageHistory()
      {
        /**
