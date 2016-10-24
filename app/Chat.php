@@ -59,17 +59,16 @@ class Chat extends Model
       return $this->hasOne('App\Message')
           ->selectRaw('id,user_id,chat_id,message,date_format(created, "%Y-%m-%dT%TZ") as created')
           ->orderBy('created','DESC')
-          ->with('user')
           ->take(1);
    }
 
 
-   public function scopeChatHistory()
-   {
+  public function scopeChatHistory()
+  {
         return $this->selectRaw('id,user_id,name,date_format(created, "%Y-%m-%dT%TZ") as created')
-            ->orderBy('created','DESC')
-            ->with('user')
-            ->with('lastMessage');
-    }
+          ->orderBy('id','DESC')
+          ->with('user')
+          ->with('lastMessage');
+  }
 
 }

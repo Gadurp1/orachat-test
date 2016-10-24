@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Auth;
+use \App\Custom\Pagination\Presenter;
 
 class MessageController extends Controller {
 
@@ -22,13 +23,22 @@ class MessageController extends Controller {
 
       // Check for limit parameter
       if($request->limit){
+        $limit=$request->limit;
         $query->take($request->limit);
       }
 
-      $messageHistory = $query->simplePaginate($request->limit);
+      $query=collect($query->get());
+      $chatHistory = $query->toArray();
 
-      return response($messageHistory)
-          ->header('Content-Type', 'application/json; charset=utf-8');
+      $paginate = 25;
+      $page = $request->page;
+
+      $offSet = ($page * $paginate) - $paginate;
+      $itemsForCurrentPage = array_slice($chatHistory, $offSet, $paginate, true);
+      $result = new Presenter($itemsForCurrentPage, count($chatHistory), $paginate, $page);
+      $result = $result->toArray();
+
+      return response()->json($result);
 
   }
 
@@ -57,7 +67,7 @@ class MessageController extends Controller {
       }
 
       // Create new message
-      $newMessage = $message->where('chat_id',$chat_id)
+      $newMessage = $message->where('id',$message->id)
           ->messageHistory()
           ->first();
 
