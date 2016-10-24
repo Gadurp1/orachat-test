@@ -1,4 +1,4 @@
-#Instructions
+# Instructions
 Clone the repository
 ```
 git clone https://github.com/Gadurp1/orachat-test.git
@@ -7,15 +7,28 @@ git clone https://github.com/Gadurp1/orachat-test.git
 
 Cd into the directory
 ```
-cd <directory/path>
-```
-Run composer
-```
-composer install
+cd path/to/project
 
 ```
-Now rename you ``.env.example`` file and set your enviroment variables.
+Run composer
+
+```
+composer install
+```
+
+Now rename the ``.env.example`` file and to ``.env`` set your enviroment variables.
+
+Generate key
+```
+php artisan key:generate
+```
+
 Set up database
 ```
 php artisan migrate
+```
+
+Start server
+```
+php artisan serve
 ```
