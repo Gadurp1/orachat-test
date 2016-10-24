@@ -37,7 +37,7 @@ class Message extends Model
         *
        */
        return $this->selectRaw('id,chat_id,user_id,message,date_format(created, "%Y-%m-%dT%TZ") as created')
-           ->orderBy('created','DESC')
+           ->orderBy('id','DESC')
            ->with('user');
       }
 }

@@ -49,9 +49,6 @@ class MessageController extends Controller {
    */
   public function store(Request $request,$chat_id)
   {
-      $this->validate($request, [
-          'message' => 'required',
-        ]);
 
       // Create new message
       $message = new Message;
@@ -67,11 +64,9 @@ class MessageController extends Controller {
       }
 
       // Create new message
-      $newMessage = $message->where('id',$message->id)
-          ->messageHistory()
-          ->first();
+       $newMessage = Message::with('user')->find($message->id);
 
-      return response()->json(['success' => true,'success' => $newMessage])
+      return response()->json(['success' => true,'data' => $newMessage])
           ->header('Content-Type', 'application/json; charset=utf-8');
   }
 

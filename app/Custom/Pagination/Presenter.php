@@ -37,18 +37,27 @@ class Presenter extends \Illuminate\Pagination\LengthAwarePaginator
     }
 
     /**
+     * Determine if there are more items in the data source.
+     *
+     * @return bool
+     */
+    public function pageCount()
+    {
+        return ceil($this->total()/$this->perPage());
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
      */
     public function toArray()
     {
-      $pageCount=ceil($this->total()/$this->perPage());
         return [
             'success' => true,
-            'data' => array_values($this->items->toArray()),
+            'data' => json_decode($this->items),
             'pagination' => [
-                'page_count' => $pageCount,
+                'page_count' => $this->pageCount(),
                 'current_page' => $this->currentPage(),
                 'has_next_page' => $this->hasMorePages(),
                 'has_prev_page' => $this->hasPrevPages(),

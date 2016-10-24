@@ -17,7 +17,8 @@ class ChatController extends Controller
    */
   public function index(Request $request)
   {
-      $query = Chat::chatHistory()->with('lastMessage')->with('user');
+      $query = Chat::chatHistory()
+          ->with('lastMessage');
 
       if ($request->q) {
           $query->where('chats.name', 'LIKE', '%'.$request->q.'%');
@@ -26,7 +27,7 @@ class ChatController extends Controller
       $query=collect($query->get());
       $chatHistory = $query->toArray();
 
-      $paginate = 25;
+      $paginate = 500;
       $page = $request->page;
 
       $offSet = ($page * $paginate) - $paginate;
@@ -53,7 +54,7 @@ class ChatController extends Controller
       $chat->name = $request->name;
       $chat->save();
 
-      $newChat = Chat::chatHistory()->where('id',$chat->id)->get();
-      return response()->json(['success' => true, 'data' => $newChat]);
-  }
+      $newChat = Chat::chatHistory()->find($chat->id);
+      return response()->json(['success' => true,'data' => $newChat])
+          ->header('Content-Type', 'application/json; charset=utf-8');  }
 }
