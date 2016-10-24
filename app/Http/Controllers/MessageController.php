@@ -25,7 +25,7 @@ class MessageController extends Controller {
         $query->take($request->limit);
       }
 
-      $messageHistory = $query->simplePaginate($request->limit);
+      $messageHistory = $query->paginate($request->limit);
 
       return response($messageHistory)
           ->header('Content-Type', 'application/json; charset=utf-8');
