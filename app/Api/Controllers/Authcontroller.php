@@ -12,7 +12,7 @@ use App\User;
 class AuthController extends \App\Http\Controllers\Controller
 {
     /**
-     * Return a JWT
+     * Authenticate user and return a token
      *
      * @return Response
      */
@@ -35,18 +35,23 @@ class AuthController extends \App\Http\Controllers\Controller
         return response()->json(['success' => true, 'data' => $user]);
     }
 
+    /**
+     * Register new user and return a token
+     *
+     * @return Response
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'email' => 'email|required|unique:users',
-            'name' => 'required',
-            'password' => 'required|min:6',
-            'confirm' => 'required|same:password'
-          ]);
+          'email' => 'email|required|unique:users',
+          'name' => 'required',
+          'password' => 'required|min:6',
+          'confirm' => 'required|same:password'
+        ]);
 
-          if($validator->fails()) {
-              return response()->json(['error' => true, 'data' => $validator->errors()->all()]);
-          }
+        if($validator->fails()) {
+          return response()->json(['error' => true, 'data' => $validator->errors()->all()]);
+        }
 
         $user = new User;
         $user->name = $request->name;

@@ -15,7 +15,7 @@ class ChatController extends Controller
    *
    * @return Response
    */
-  public function index(Request $request)
+  public function index(Request $request, $paginate = 10)
   {
       $query = Chat::chatHistory()
           ->with('lastMessage');
@@ -27,7 +27,6 @@ class ChatController extends Controller
       $query=collect($query->get());
       $chatHistory = $query->toArray();
 
-      $paginate = 10;
       $page = $request->page;
 
       $offSet = ($page * $paginate) - $paginate;

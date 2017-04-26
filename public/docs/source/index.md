@@ -21,7 +21,7 @@ Welcome to the generated API reference.
 
 #general
 <!-- START_361b5d3d1511f029cdec7c78ab8195be -->
-## Return a JWT
+## Authenticate user and return a token
 
 > Example request:
 
@@ -53,7 +53,7 @@ $.ajax(settings).done(function (response) {
 
 <!-- END_361b5d3d1511f029cdec7c78ab8195be -->
 <!-- START_7114718ce5b1959b33089bc2492a2d4c -->
-## users/register
+## Register new user and return a token
 
 > Example request:
 
@@ -515,7 +515,7 @@ $.ajax(settings).done(function (response) {
         "name": "todd",
         "email": "dudemanbros@gmail.com",
         "created": null,
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQ1LCJpc3MiOiJodHRwOlwvXC9vcmFjaGF0LXRlc3QuZGV2XC91c2Vyc1wvbG9naW4iLCJpYXQiOjE0OTMyMzU4OTcsImV4cCI6MTQ5MzIzOTQ5NywibmJmIjoxNDkzMjM1ODk3LCJqdGkiOiJiNTkxNGI5YzZlZWNiMGFhOGVhZDIxNThmZjA1ZDUzNiJ9.CuXoyftDoCV4nrhepm_HS2Zn4Yk6ZvI3_mJKg2UjU0M"
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQ1LCJpc3MiOiJodHRwOlwvXC9vcmFjaGF0LXRlc3QuZGV2XC91c2Vyc1wvbG9naW4iLCJpYXQiOjE0OTMyMzk4MjcsImV4cCI6MTQ5MzI0MzQyNywibmJmIjoxNDkzMjM5ODI3LCJqdGkiOiJhY2EzNTE0NGZmYjEzOTJmNTk4MzU5ZDE0YTQ0Mzk2OSJ9.r_v8pPaaxKngJmrH-tcHKsDVtoI3-ZoZ8zY9NQb-mkE"
     }
 }
 ```
