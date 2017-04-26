@@ -1,4 +1,7 @@
-# Instructions
+# Simple Chat API Using Laravel and JWT Auth
+This is a simple chat api with authentication built in.  Documentation in ``public/docs``
+
+#### Installation
 Clone the repository
 ```
 git clone https://github.com/Gadurp1/orachat-test.git
