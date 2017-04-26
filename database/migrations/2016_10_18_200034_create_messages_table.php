@@ -18,8 +18,7 @@ class CreateMessagesTable extends Migration
              $table->integer('chat_id');
              $table->integer('user_id')->index();
              $table->string('message');
-             $table->integer('pages_count');
-             $table->timestamp('created');
+             $table->date('created')->nullable();
          });
      }
 

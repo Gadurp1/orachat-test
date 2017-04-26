@@ -29,4 +29,14 @@ class User extends Authenticatable
         'password', 'remember_token'
     ];
 
+    public function chats()
+    {
+        /**
+         *
+         * A chat can have many messages
+         *
+        */
+        return $this->hasMany('App\Chat');
+    }
+
 }

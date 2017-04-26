@@ -13,7 +13,7 @@ use Auth;
 class UserController extends Controller {
 
   /**
-   * Display a listing of chats with last chat message.
+   * Display a users information.
    *
    * @return Response
    */
@@ -28,7 +28,7 @@ class UserController extends Controller {
   }
 
   /**
-   * Display a listing of chats with last chat message.
+   * .
    *
    * @return Response
    */
@@ -38,7 +38,7 @@ class UserController extends Controller {
   }
 
   /**
-   * Display a listing of chats with last chat message.
+   * Update user information.
    *
    * @return Response
    */
